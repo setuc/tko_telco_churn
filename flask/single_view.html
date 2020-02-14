@@ -16,7 +16,7 @@
     </div>
     <div id='features' style='clear:both;'></div>
     <script>
-        const accessKey = "mw3wx61wimnism73lbzkv26kiw9lmp48";
+        const accessKey = "m4whovt1mhwjmek4jrcazthsidb1u1u9";
         in_url = new URL(window.location.href)
         out_url = new URL(window.location.origin + window.location.pathname)
 
@@ -43,7 +43,7 @@
                         '#4393c3', '#92c5de', '#d1e5f0', '#f7f7f7', '#fddbc7', '#f4a582', '#d6604d'
                     ]);
         var dataset = d3.json(
-                window.location.origin.substr(0,window.location.origin.indexOf(":")+1) + "//" + window.location.origin.substr(window.location.origin.indexOf(".")+1) + '/api/altus-ds-1/models/call-model', {
+                window.location.origin.substr(0,window.location.origin.indexOf(":")+1) + "//" + "modelservice." + window.location.origin.substr(window.location.origin.indexOf(".")+1) + '/model', {
                 method: 'POST',
                 body: '{"accessKey":"' + accessKey + '","request":' + JSON.stringify(params) +
                     '}',

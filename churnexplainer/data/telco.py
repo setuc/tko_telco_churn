@@ -1,11 +1,15 @@
 import os
 import numpy as np
 import pandas as pd
+import glob
 
 from churnexplainer.utils import data_dir
 from churnexplainer.data import utils
 
-ibmxlsxpath = os.path.join(data_dir, 'raw', 'WA_Fn-UseC_-Telco-Customer-Churn.csv')
+if len(glob.glob("/home/cdsw/raw/telco-data/*.csv")) == 1:
+  telco_data_path = glob.glob("/home/cdsw/raw/telco-data/*.csv")[0]
+else:
+  telco_data_path = os.path.join(data_dir, 'raw', 'WA_Fn-UseC_-Telco-Customer-Churn.csv')
 
 idcol = 'customerID'
 labelcol = 'Churn'
@@ -48,7 +52,7 @@ def booleanize_senior_citizen(df):
 
 def load_dataset():
     '''Return IBM customers and labels.'''
-    df = pd.read_csv(ibmxlsxpath)
+    df = pd.read_csv(telco_data_path)
     df = drop_missing(df).reset_index()
     df.index.name = 'id'
     features, labels = utils.splitdf(df, labelcol)

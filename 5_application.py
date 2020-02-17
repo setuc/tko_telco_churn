@@ -5,6 +5,9 @@ import os
 import random
 from IPython.display import Javascript,HTML
 
+from flask import Flask
+from flask_cors import CORS
+
 # Imports needed for the churn explainer code.
 from collections import ChainMap
 from churnexplainer.utils import log_environment
@@ -17,6 +20,8 @@ log.setLevel(logging.ERROR)
 em = ExplainedModel(os.getenv('CHURN_MODEL_NAME', 'test_model'))
 
 app= Flask(__name__,static_url_path='')
+CORS(app)
+
 @app.route('/')
 def home():
     return "<script> window.location.href = '/flask/table_view.html'</script>"
@@ -132,4 +137,4 @@ HTML("<a href='https://{}.{}'>Open Table View</a>".format(os.environ['CDSW_ENGIN
 
 
 if __name__=="__main__":
-    app.run(host='127.0.0.1', port=int(os.environ['CDSW_READONLY_PORT']))
+    app.run(host='127.0.0.1', port=int(os.environ['CDSW_APP_PORT']))

@@ -7,6 +7,7 @@ spark = SparkSession\
     .appName("PythonSQL")\
     .master("local[*]") \
     .config("spark.hadoop.yarn.resourcemanager.principal","jfletcher")\
+    .config("spark.hadoop.fs.s3a.s3guard.ddb.region","us-west-2")\
     .getOrCreate()
 
 schema = StructType(

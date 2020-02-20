@@ -5,11 +5,13 @@ from pyspark.sql.types import *
 spark = SparkSession\
     .builder\
     .appName("PythonSQL")\
-    .master("local[*]") \
-    .config("spark.hadoop.yarn.resourcemanager.principal","u_001")\
-    .config("spark.hadoop.fs.s3a.s3guard.ddb.region","us-east-1")\
-    .config("spark.yarn.access.hadoopFileSystems","s3a://jfletcher-cdp-bucket/")\
     .getOrCreate()
+
+#    .config("spark.hadoop.yarn.resourcemanager.principal","u_001")\
+#    .master("local[*]") \    
+#    .config("spark.hadoop.fs.s3a.s3guard.ddb.region","us-east-1")\
+#    .config("spark.yarn.access.hadoopFileSystems","s3a://jfletcher-cdp-bucket/")\
+    
 
 schema = StructType(
   [

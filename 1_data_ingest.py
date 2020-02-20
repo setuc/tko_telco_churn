@@ -5,7 +5,6 @@ from pyspark.sql.types import *
 spark = SparkSession\
     .builder\
     .appName("PythonSQL")\
-    .config("spark.hadoop.yarn.resourcemanager.principal","u_001")\
     .master("local[*]") \
     .getOrCreate()
 

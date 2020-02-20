@@ -62,6 +62,8 @@ spark.sql("show databases").show()
 
 spark.sql("show tables in default").show()
 
+spark.sql("select * from default.telco_churn").show()
+
 #telco_data\
 #  .write.format("parquet")\
 #  .mode("overwrite")\
@@ -69,7 +71,3 @@ spark.sql("show tables in default").show()
 #    'default.telco_churn'
 #)
 
-spark.sql("select * from default.telco_churn").show()
-#spark.sql("show create table default.telco_churn").take(1)
-
-#   path='s3a://prod-cdptrialuser19-trycdp-com/cdp-lake/data/airlines/airline_parquet_table')

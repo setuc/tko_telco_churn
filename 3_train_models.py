@@ -1,16 +1,16 @@
 #This code will train a model
-
-
-
 from churnexplainer import train
 from churnexplainer.data import dataset, load_dataset
 import cdsw, os
 
-#os.getenv('CHURN_MODEL_TYPE', 'linear') #| gb | nonlinear | voting"
-os.getenv('CHURN_MODEL_TYPE', sys.argv[1])
-#os.getenv('CHURN_DATASET', 'ibm') #| breastcancer | iris | telco
-os.getenv('CHURN_DATASET', sys.argv[2])
-
+if len(sys.argv) > 1:
+  os.getenv('CHURN_MODEL_TYPE', sys.argv[1])
+  os.getenv('CHURN_DATASET', sys.argv[2])
+  
+else:
+  os.getenv('CHURN_MODEL_TYPE','linear')
+  os.getenv('CHURN_DATASET', 'telco')
+  
 train_score, test_score, model_path = train.experiment_and_save()
 
 cdsw.track_metric("train_score",round(train_score,2))

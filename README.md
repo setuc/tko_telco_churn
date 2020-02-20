@@ -17,7 +17,6 @@ Change the hadoop principle to your user name. i.e. replace `jfletcher` in the f
 Run the file. 
 
 
-
 ### 2 Explore Data
 Open a jupyter notebook at open the `2_data_exploration.ipynb` file
 
@@ -30,22 +29,7 @@ The model artifact will be saved in the models directory named after the datesta
 
 
 ### 4 Serve Models
-Go to the **Models** section and create a new predictor model with the following:
-* **Name**: Predictor
-* **Description**: Predict customer churn
-* **File**: 4_model_serve_predictor.py
-* **Function**: predict
-* **Input**: 
-`{"StreamingTV":"No","MonthlyCharges":70.35,"PhoneService":"No","PaperlessBilling":"No","Partner":"No","OnlineBackup":"No","gender":"Female","Contract":"Month-to-month","TotalCharges":1397.475,"StreamingMovies":"No","DeviceProtection":"No","PaymentMethod":"Bank transfer (automatic)","tenure":29,"Dependents":"No","OnlineSecurity":"No","MultipleLines":"No","InternetService":"DSL","SeniorCitizen":"No","TechSupport":"No"}`  
-* **Kernel**: Python 3
-
-If you created your own model (see above)
-* Click on "Set Environment Variables" and add:
-  * **Name**: CHURN_MODEL_NAME
-  * **Value**: 20191120T161757_telco_linear  **your model name from above**
-  Click "Add" and "Deploy Model"
-
-Create a new Explainer model with the following:
+Go to the **Models** section and create a new Explainer model with the following:
 
 * **Name**: Explainer
 * **Description**: Explain customer churn prediction
@@ -88,61 +72,14 @@ Clicking on any single row will show a "local" interpretabilty of a particular i
 can see how adjusting any one of the features will change the instance's churn prediction.  
 
 
-
-
-## OLD README
-# Refractor (or churnexplainer)
-
-
-## CML Applications: Train and inspect a new model locally
-
-This project uses the Applications feature of CML (>=1.2) and CDSW (>=1.7) to instantiate a UI frontend for visual interpretability and decision management.  
-
-
-### Deploy a Predictor and Explainer models
-Go to the **Models** section and create a new predictor model with the following:
-* **Name**: Predictor
-* **Description**: Predict customer churn
-* **File**: predictor.py
-* **Function**: predict
-* **Input**: 
-`{"StreamingTV":"No","MonthlyCharges":70.35,"PhoneService":"No","PaperlessBilling":"No","Partner":"No","OnlineBackup":"No","gender":"Female","Contract":"Month-to-month","TotalCharges":1397.475,"StreamingMovies":"No","DeviceProtection":"No","PaymentMethod":"Bank transfer (automatic)","tenure":29,"Dependents":"No","OnlineSecurity":"No","MultipleLines":"No","InternetService":"DSL","SeniorCitizen":"No","TechSupport":"No"}`  
-* **Kernel**: Python 3
-
-If you created your own model (see above)
-* Click on "Set Environment Variables" and add:
-  * **Name**: CHURN_MODEL_NAME
-  * **Value**: 20191120T161757_ibm_linear  **your model name from above**
-  Click "Add" and "Deploy Model"
-
-Create a new Explainer model with the following:
-
-* **Name**: Explainer
-* **Description**: Explain customer churn prediction
-* **File**: explainer.py
-* **Function**: explain
-* **Input**: `{"StreamingTV":"No","MonthlyCharges":70.35,"PhoneService":"No","PaperlessBilling":"No","Partner":"No","OnlineBackup":"No","gender":"Female","Contract":"Month-to-month","TotalCharges":1397.475,"StreamingMovies":"No","DeviceProtection":"No","PaymentMethod":"Bank transfer (automatic)","tenure":29,"Dependents":"No","OnlineSecurity":"No","MultipleLines":"No","InternetService":"DSL","SeniorCitizen":"No","TechSupport":"No"}`
-* **Kernel**: Python 3
-
-If you created your own model (see above)
-* Click on "Set Environment Variables" and add:
-  * **Name**: CHURN_MODEL_NAME
-  * **Value**: 20191120T161757_ibm_linear  **your model name from above**
-  Click "Add" and "Deploy Model"
-
-In the deployed Explainer model -> Settings note (copy) the "Access Key" (ie. mukd9sit7tacnfq2phhn3whc4unq1f38)
-
-
-### Instatiate the flask UI application
-
 ** Don't forget** to stop your Models and Experiments once you are done to save resources for your colleagues.  
 
 
 ## Additional options
 By default this code trains a linear regression model against the IBM dataset.  
-There are other datasets and other model types as well.  Look at train_multiple.py for examples or set the Project environment variables to try other datasets and models:  
+There are other datasets and other model types as well.  Set the Project environment variables to try other datasets and models:  
 Name              Value  
-CHURN_DATASET     ibm (default) | breastcancer | iris  
+CHURN_DATASET     telco (default) | ibm | breastcancer | iris  
 CHURN_MODEL_TYPE  linear (default) | gb | nonlinear | voting  
 
 

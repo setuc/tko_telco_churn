@@ -5,10 +5,11 @@ from pyspark.sql.types import *
 spark = SparkSession\
     .builder\
     .appName("PythonSQL")\
+    .config("spark.hadoop.yarn.resourcemanager.principal","u_001")\
+    .master("local[*]") \
     .getOrCreate()
 
-#    .config("spark.hadoop.yarn.resourcemanager.principal","u_001")\
-#    .master("local[*]") \    
+## Add the following config if you want to run on the k8s cluster and remove `local[*]`
 #    .config("spark.hadoop.fs.s3a.s3guard.ddb.region","us-east-1")\
 #    .config("spark.yarn.access.hadoopFileSystems","s3a://jfletcher-cdp-bucket/")\
     

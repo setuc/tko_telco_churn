@@ -6,8 +6,9 @@ spark = SparkSession\
     .builder\
     .appName("PythonSQL")\
     .master("local[*]") \
-    .config("spark.hadoop.yarn.resourcemanager.principal","jfletcher")\
-    .config("spark.hadoop.fs.s3a.s3guard.ddb.region","us-west-2")\
+    .config("spark.hadoop.yarn.resourcemanager.principal","u_001")\
+    .config("spark.hadoop.fs.s3a.s3guard.ddb.region","us-east-1")\
+    .config("spark.yarn.access.hadoopFileSystems","s3a://jfletcher-cdp-bucket/")\
     .getOrCreate()
 
 schema = StructType(
@@ -37,7 +38,7 @@ schema = StructType(
 )    
     
 telco_data = spark.read.csv(
-  "s3a://ml-field/demo/telco/",
+  "s3a://jfletcher-cdp-bucket/jfletcher-dl/telco/WA_Fn-UseC_-Telco-Customer-Churn.csv",
   header=True,
   schema=schema,
   sep=',',
@@ -58,13 +59,14 @@ spark.sql("show databases").show()
 
 spark.sql("show tables in default").show()
 
-telco_data.write.saveAsTable(
-  'default.telco_data',
-   format='parquet', 
-   mode='overwrite'
-)
+#telco_data\
+#  .write.format("parquet")\
+#  .mode("overwrite")\
+#  .saveAsTable(
+#    'default.telco_churn'
+#)
 
-spark.sql("select * from default.telco_data").show()
-spark.sql("show create table default.telco_data").take(1)
+spark.sql("select * from default.telco_churn").show()
+#spark.sql("show create table default.telco_churn").take(1)
 
 #   path='s3a://prod-cdptrialuser19-trycdp-com/cdp-lake/data/airlines/airline_parquet_table')

@@ -61,6 +61,8 @@ spark.sql("show databases").show()
 
 spark.sql("show tables in default").show()
 
+spark.sql("select * from default.telco_churn").show()
+
 #telco_data\
 #  .write.format("parquet")\
 #  .mode("overwrite")\

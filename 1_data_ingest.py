@@ -5,7 +5,6 @@ from pyspark.sql.types import *
 spark = SparkSession\
     .builder\
     .appName("PythonSQL")\
-    .config("spark.hadoop.yarn.resourcemanager.principal","u_001")\
     .master("local[*]") \
     .getOrCreate()
 
@@ -70,6 +69,3 @@ spark.sql("show tables in default").show()
 #)
 
 spark.sql("select * from default.telco_churn").show()
-#spark.sql("show create table default.telco_churn").take(1)
-
-#   path='s3a://prod-cdptrialuser19-trycdp-com/cdp-lake/data/airlines/airline_parquet_table')

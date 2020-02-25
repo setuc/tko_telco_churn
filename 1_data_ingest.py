@@ -40,7 +40,7 @@ schema = StructType(
 )    
     
 telco_data = spark.read.csv(
-  "s3a://jfletcher-cdp-bucket/jfletcher-dl/telco/WA_Fn-UseC_-Telco-Customer-Churn.csv",
+  "s3a://jf-tko21-cdp-bucket/jf-tko21-dl/telco/WA_Fn-UseC_-Telco-Customer-Churn.csv",
   header=True,
   schema=schema,
   sep=',',
@@ -61,7 +61,6 @@ spark.sql("show databases").show()
 
 spark.sql("show tables in default").show()
 
-spark.sql("select * from default.telco_churn").show()
 
 #telco_data\
 #  .write.format("parquet")\

@@ -26,7 +26,7 @@ project_id = project_details["id"]
 
 
 # Create Job
-create_jobs_params = {"name": "Train Model " + str(datetime.datetime.now()),
+create_jobs_params = {"name": "Train Model " + str(int(time.time())),
                       "type": "manual",
                       "script": "3_train_models.py",
                       "timezone": "America/Los_Angeles",
@@ -109,5 +109,6 @@ create_application_params = {
 
 new_application_details = cml.create_application(create_application_params)
 application_url = new_application_details["url"]
-print("Aplication created at ", application_url)
-HTML("<a href='{}'>Open Table View</a>".format(application_url))
+print("Aplication created, deploying at ", application_url)
+print("Application may need a few minutes to finish deploying ..")
+HTML("<a href='{}'>Open Application UI</a>".format(application_url))

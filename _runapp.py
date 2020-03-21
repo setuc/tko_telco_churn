@@ -4,8 +4,9 @@ import time
 
 HOST = "https://ml-44322529-cb3.eng-ml-l.vnu8-sqze.cloudera.site"
 USERNAME = "vdibia"
-API_KEY = "u97g770tm0uls0u3cwoads6ensqjunkx"
+API_KEY = ""
 PROJECT_NAME = "refractor"
+
 
 # Instantial API Wrapper
 cml = CMLApi(HOST, USERNAME, API_KEY, PROJECT_NAME)

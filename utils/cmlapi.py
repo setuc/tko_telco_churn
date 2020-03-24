@@ -14,6 +14,27 @@ class CMLApi:
 
         logging.debug("Api Initiated")
 
+    # get default engine for project
+    def get_engine(self, params):
+        get_engines_endpoint = "/".join([self.host, "api/v1/",
+                                         self.username, self.project_name, "engine-images"])
+
+        res = requests.get(
+            get_engines_endpoint,
+            headers={"Content-Type": "application/json"},
+            auth=(self.api_key, ""),
+            data=json.dumps(params)
+        )
+
+        response = res.json()
+        if (res.status_code != 200):
+            logging.error(response["message"])
+            logging.error(response)
+        else:
+            logging.debug("User details retrieved")
+
+        return response
+
     def get_user(self, params):
         get_user_endpoint = "/".join([self.host, "api/v1/users",
                                       self.username])

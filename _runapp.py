@@ -1,39 +1,24 @@
 from utils.cmlapi import CMLApi
 from IPython.display import Javascript, HTML
 import time
-import argparse
-
-parser = argparse.ArgumentParser(description='Run CML Application')
-parser.add_argument('-host', '--host', type=str,
-                    help='CML Host URL')
-parser.add_argument('-apikey', '--apikey', type=str,
-                    help='User API Key', default=None)
-parser.add_argument('-username', '--username', type=str,
-                    help='CML User Account Name')
-parser.add_argument('-projectname', '--projectname', type=str,
-                    help='CML Project Name')
-
-args = parser.parse_args()
-
-HOST = args.host  # "https://ml-44322529-cb3.eng-ml-l.vnu8-sqze.cloudera.site"
-USERNAME = args.username  # "vdibia"
-API_KEY = args.apikey  # erdfUKIlsd..
-PROJECT_NAME = args.projectname  # "refractor"
-
-if (API_KEY == None or API_KEY == ""):
-    raise ValueError('Enter a valid API Key as argument to _runapp.py')
+import os
 
 
-print(HOST, USERNAME, API_KEY, PROJECT_NAME)
+# "https://ml-44322529-cb3.eng-ml-l.vnu8-sqze.cloudera.site"
+HOST = os.getenv("CDSW_API_URL").split(
+    ":")[0] + "://" + os.getenv("CDSW_DOMAIN")
+USERNAME = os.getenv("CDSW_PROJECT_URL").split("/")[6]  # "jfletch"
+API_KEY = os.getenv("CDSW_API_KEY")    # erdfUKIlsd..
+PROJECT_NAME = os.getenv("CDSW_PROJECT")   # "refractor"
 
-# Instantial API Wrapper
+
+# Instantiate API Wrapper
 cml = CMLApi(HOST, USERNAME, API_KEY, PROJECT_NAME)
 
 # Get User Details
 user_details = cml.get_user({})
 user_obj = {"id": user_details["id"], "username": "vdibia",
             "name": user_details["name"],
-            "email": user_details["email"],
             "type": user_details["type"],
             "html_url": user_details["html_url"],
             "url": user_details["url"]
@@ -87,6 +72,10 @@ print("Job started")
 #job_dict = cml.start_job(job_id, start_job_params)
 #cml.stop_job(job_id, start_job_params)
 
+# Get Default Engine Details
+default_engine_details = cml.default_engine({})
+default_engine_image_id = default_engine_details["id"]
+
 # Create Model
 example_model_input = {"StreamingTV": "No", "MonthlyCharges": 70.35, "PhoneService": "No", "PaperlessBilling": "No", "Partner": "No", "OnlineBackup": "No", "gender": "Female", "Contract": "Month-to-month", "TotalCharges": 1397.475,
                        "StreamingMovies": "No", "DeviceProtection": "No", "PaymentMethod": "Bank transfer (automatic)", "tenure": 29, "Dependents": "No", "OnlineSecurity": "No", "MultipleLines": "No", "InternetService": "DSL", "SeniorCitizen": "No", "TechSupport": "No"}
@@ -98,7 +87,7 @@ create_model_params = {
     "visibility": "private",
     "targetFilePath": "4_model_serve_explainer.py",
     "targetFunctionName": "explain",
-    "engineImageId": 14,
+    "engineImageId": default_engine_image_id,
     "kernel": "python3",
     "examples": [
         {

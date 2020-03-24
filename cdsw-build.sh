@@ -22,3 +22,5 @@ if [[ ! -d /home/cdsw/R ]]
 then 
   mkdir -m 755 /home/cdsw/R
 fi
+
+python3 _runapp.py -host="https://ml-44322529-cb3.eng-ml-l.vnu8-sqze.cloudera.site"  -username="vdibia" -apikey="" -projectname="refractor"

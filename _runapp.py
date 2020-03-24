@@ -1,12 +1,30 @@
 from utils.cmlapi import CMLApi
 from IPython.display import Javascript, HTML
 import time
+import argparse
 
-HOST = "https://ml-44322529-cb3.eng-ml-l.vnu8-sqze.cloudera.site"
-USERNAME = "vdibia"
-API_KEY = ""
-PROJECT_NAME = "refractor"
+parser = argparse.ArgumentParser(description='Run CML Application')
+parser.add_argument('-host', '--host', type=str,
+                    help='CML Host URL')
+parser.add_argument('-apikey', '--apikey', type=str,
+                    help='User API Key', default=None)
+parser.add_argument('-username', '--username', type=str,
+                    help='CML User Account Name')
+parser.add_argument('-projectname', '--projectname', type=str,
+                    help='CML Project Name')
 
+args = parser.parse_args()
+
+HOST = args.host  # "https://ml-44322529-cb3.eng-ml-l.vnu8-sqze.cloudera.site"
+USERNAME = args.username  # "vdibia"
+API_KEY = args.apikey  # erdfUKIlsd..
+PROJECT_NAME = args.projectname  # "refractor"
+
+if (API_KEY == None or API_KEY == ""):
+    raise ValueError('Enter a valid API Key as argument to _runapp.py')
+
+
+print(HOST, USERNAME, API_KEY, PROJECT_NAME)
 
 # Instantial API Wrapper
 cml = CMLApi(HOST, USERNAME, API_KEY, PROJECT_NAME)
@@ -110,6 +128,7 @@ create_application_params = {
 
 new_application_details = cml.create_application(create_application_params)
 application_url = new_application_details["url"]
+
+print("Application may need a few minutes to finish deploying. Open link below in about a minute ..")
 print("Aplication created, deploying at ", application_url)
-print("Application may need a few minutes to finish deploying ..")
 HTML("<a href='{}'>Open Application UI</a>".format(application_url))

@@ -4,6 +4,14 @@ import logging
 
 
 class CMLApi:
+    """This classs is a wrapper for calls to the internal CML api
+
+    Attributes: 
+        host (str): URL for the CML instance host. 
+        username (str): Current username.
+        api_key (str): API key.
+        project_name (str): Project name.
+    """
 
     def __init__(self, host, username, api_key, project_name, log_level=logging.INFO):
         self.host = host
@@ -14,9 +22,16 @@ class CMLApi:
 
         logging.debug("Api Initiated")
 
-    # get default engine for project
-    def get_engine(self, params):
-        get_engines_endpoint = "/".join([self.host, "api/v1/",
+    def default_engine(self, params):
+        """Get the default engine for the given project
+
+        Arguments:
+            params {dict} -- None needed actually.
+
+        Returns:
+            dict -- [dictionary containing default engine details]
+        """
+        get_engines_endpoint = "/".join([self.host, "api/v1/projects",
                                          self.username, self.project_name, "engine-images"])
 
         res = requests.get(
@@ -36,6 +51,7 @@ class CMLApi:
         return response
 
     def get_user(self, params):
+
         get_user_endpoint = "/".join([self.host, "api/v1/users",
                                       self.username])
         res = requests.get(

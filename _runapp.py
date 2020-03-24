@@ -1,15 +1,35 @@
 from utils.cmlapi import CMLApi
 from IPython.display import Javascript, HTML
-import time
 import os
 
+import datetime
+run_time_suffix = datetime.datetime.now()
+run_time_suffix = run_time_suffix.strftime("%d%m%Y%H%M%S")
 
-# "https://ml-44322529-cb3.eng-ml-l.vnu8-sqze.cloudera.site"
+#import argparse
+#parser = argparse.ArgumentParser(description='Run CML Application')
+# parser.add_argument('-host', '--host', type=str,
+#                    help='CML Host URL')
+# parser.add_argument('-apikey', '--apikey', type=str,
+#                    help='User API Key', default=None)
+# parser.add_argument('-username', '--username', type=str,
+#                    help='CML User Account Name')
+# parser.add_argument('-projectname', '--projectname', type=str,
+#                    help='CML Project Name')
+#args = parser.parse_args()
+#
+# HOST = args.host  # "https://ml-44322529-cb3.eng-ml-l.vnu8-sqze.cloudera.site"
+# USERNAME = args.username  # "vdibia"
+# API_KEY = args.apikey  # erdfUKIlsd..
+# PROJECT_NAME = args.projectname  # "refractor"
+
+# args.host  # "https://ml-44322529-cb3.eng-ml-l.vnu8-sqze.cloudera.site"
 HOST = os.getenv("CDSW_API_URL").split(
     ":")[0] + "://" + os.getenv("CDSW_DOMAIN")
-USERNAME = os.getenv("CDSW_PROJECT_URL").split("/")[6]  # "jfletch"
-API_KEY = os.getenv("CDSW_API_KEY")    # erdfUKIlsd..
-PROJECT_NAME = os.getenv("CDSW_PROJECT")   # "refractor"
+USERNAME = os.getenv("CDSW_PROJECT_URL").split(
+    "/")[6]  # args.username  # "vdibia"
+API_KEY = os.getenv("CDSW_API_KEY")  # args.apikey  # erdfUKIlsd..
+PROJECT_NAME = os.getenv("CDSW_PROJECT")  # args.projectname  # "refractor"
 
 
 # Instantiate API Wrapper
@@ -30,7 +50,7 @@ project_id = project_details["id"]
 
 
 # Create Job
-create_jobs_params = {"name": "Train Model " + str(int(time.time())),
+create_jobs_params = {"name": "Train Model " + run_time_suffix,
                       "type": "manual",
                       "script": "3_train_models.py",
                       "timezone": "America/Los_Angeles",
@@ -41,20 +61,20 @@ create_jobs_params = {"name": "Train Model " + str(int(time.time())),
                       "nvidia_gpu": 0,
                       "include_logs": True,
                       "notifications": [
-    {"user_id": user_obj["id"],
-     "user":  user_obj,
-     "success": False, "failure": False, "timeout": False, "stopped": False
-     }
-],
-    "recipients": {},
-    "attachments": [],
-    "include_logs": True,
-    "report_attachments": [],
-    "success_recipients": [],
-    "failure_recipients": [],
-    "timeout_recipients": [],
-    "stopped_recipients": []
-}
+                          {"user_id": user_obj["id"],
+                           "user":  user_obj,
+                           "success": False, "failure": False, "timeout": False, "stopped": False
+                           }
+                      ],
+                      "recipients": {},
+                      "attachments": [],
+                      "include_logs": True,
+                      "report_attachments": [],
+                      "success_recipients": [],
+                      "failure_recipients": [],
+                      "timeout_recipients": [],
+                      "stopped_recipients": []
+                      }
 
 new_job = cml.create_job(create_jobs_params)
 new_job_id = new_job["id"]
@@ -82,7 +102,7 @@ example_model_input = {"StreamingTV": "No", "MonthlyCharges": 70.35, "PhoneServi
 
 create_model_params = {
     "projectId": project_id,
-    "name": "Model Explainer " + str(int(time.time())),
+    "name": "Model Explainer " + run_time_suffix,
     "description": "Explain a given model prediction",
     "visibility": "private",
     "targetFilePath": "4_model_serve_explainer.py",
@@ -107,7 +127,7 @@ print("New model created with access key", access_key)
 # Create Application
 create_application_params = {
     "name": "Explainer App",
-    "subdomain": str(int(time.time())),
+    "subdomain": run_time_suffix[:],
     "description": "Explainer web application",
     "type": "manual",
     "script": "5_application.py", "environment": {},
